@@ -1,0 +1,7 @@
+/summarize_pdf/*.pdf
+/summarize_pdf/*.mmd
+/summarize_pdf/*.mp3
+/summarize_pdf/key.txt
+
+!/summarize_pdf/2017_ICRC_david_schmidt.pdf
+!/summarize_pdf/2017_ICRC_david_schmidt.mp3 
