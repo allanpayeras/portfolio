@@ -1,4 +1,4 @@
-# Portifolio
+# Portfolio
 
 Welcome to my portifolio!
 
