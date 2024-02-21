@@ -14,6 +14,7 @@ In this project, the application of machine learning models for classification o
 Here we provide on overview of the project and its main results.
 Further detailed information can be found in the corresponding [Jupyter notebook](/star_classification/stars.ipynb).
 
+
 ## Data access
 
 The data from the Hipparcos Astronomical Catalogue was retrieved from the [VizieR](https://vizier.cds.unistra.fr/) archive of the Strasbourg astronomical Data Center (CDS).
@@ -34,6 +35,7 @@ For this project with the objective of stellar classification, the following qua
 
 To ensure the quality of the data, we also filtered the results so that only observations with relative parallax error smaller than 0.2 milliarcsecs and uncertainty in $B-V$ smaller or equal to 0.05 mag were selected.
 
+
 ## Data cleaning
 
 For the classification task, we are interested in the luminosity classes of the stars as defined by the Morgan-Keenan-Kellman (MKK) classification system.
@@ -53,6 +55,7 @@ The spectral type provided in the Catalogue not only reports the MKK luminosity 
 The latter consists in a letter (O,B,A,F,G,K, or M) followed by a number (from 0 to 9) which is based on the spectral lines related to the temperature (or color) of the star.
 
 As a consequence, we performed a data cleaning procedure that extracts the MKK classification from the information provided in the spectral type field of the Catalogue.
+
 
 ## Exploratory data analysis
 
@@ -102,6 +105,7 @@ This imbalance in classes is potentially problematic for training the classifica
 
 ![type_frequency](/star_classification/figures/type_frequency.png)
 
+
 ## Classification models and training
 
 In this project, we have trained different classification models provided by the `scikit-learn` library with the aim of comparing their corresponding performances.
@@ -124,4 +128,56 @@ As noted previously, an imbalance between the different stellar classes is prese
 This situation is undesirable since it may introduce biases to the trained models.
 To mitigate this problem, we attributed weights to the different classes inversely proportional to the frequency of the corresponding stellar types.
 
+
 ## Results and model evaluation
+
+The first evaluation statistic we analyzed was the accuracy of each model as displayed in the following plot.
+We observe that random forest, gradient boosting and the neural network models exhibit accuracy above 80%.
+Although this is encouraging, it is necessary to further investigate the performance of the models, since the accuracy statistic may be misleading, specially in multi-class problem with unbalanced categories.
+
+![accuracy](/star_classification/figures/accurary.png)
+
+To gain a deeper understanding of the performance of the models, we analyzed the corresponding confusion matrices.
+The plot below displays the confusion matrix normalized over the predicted label (columns), the diagonal of which provides the precision of the model for each stellar type.
+
+![precision](/star_classification/figures/precision_cm.png)
+
+It is noteworthy that all models present a precision larger than 80% (some 90%) for the stellar types III and V.
+However, it is evident that all models find difficult to correctly categorize stars belonging to type IV, indicating the intrinsic similarity in their color and magnitude values as previously discussed.
+Some models (random forest, gradient boosting, decision tree, and neural network) present a tendency to correctly identify white dwarfs, we must be cautious of this result, however, as we have only a few instances in our testing set.
+Additionally, we verify low precision for types I and II, also attributable to the aforementioned similarity effect.
+The neural-network model presents the best precision for these stellar classes.
+
+In the following figure, the confusion matrix is normalized over the true label (rows), which provides the recall of the models for each stellar type in the respective diagonal elements.
+Random forest, gradient boosting, decision tree and neural network models exhibit a recall value larger than 80% for type-III stars. For type V, random forest, gradient boosting and neural networks perform with recall above 95%.
+Note how logistic regression and support vector machine models present considerable smaller recall when compared to their precision result.
+
+![recall](/star_classification/figures/recall.png)
+
+To account for both precision and recall, the figure below displays the F1 score for each model separately for all stellar types.
+All plots have the F1-score axis from zero to one, which allow us to easily visualize that, overall, the models perform better for the classification of type-III and type-V stars, as already verified from the confusion matrices.
+
+![f1_score](/star_classification/figures/f1_score.png)
+
+To summarize the overall performance of all models in one plot, below we display the average F1 score for each model.
+The neural network model is the overall best, however random forest also performs well with average F1 score close to 0.6.
+
+![average_f1_score](/star_classification/figures/average_f1_score.png)
+
+For completion of the evaluation analysis, the Receiver Operating Characteristic (ROC) curves and the associated area under curve (AUC) of each model are presented individually for each stellar type with respect to the other classes.
+The plots reinforce the conclusions obtained previously. However, note that the AUC values are significantly above 0.5 which represent a pure chance (random) result.
+
+![roc_auc](/star_classification/figures/roc_auc.png)
+
+
+## Conclusion and possible improvements
+
+Overall, the models perform well in the identification of type-III and type-V stars with F1 scores typically around 0.8.
+The neural network and random forest models also present an encouraging potential to correctly classify white dwarfs as well as type-I stars.
+
+We can attribute the similarity of the magnitude and color values for types II, IV, and subdwarfs to those of types III and V as the principal cause of poor classification of the initially mentioned stellar classes.
+
+The performance of the models could be substantially enhanced by providing more features of the stars such as their radius or more interestedly their electromagnetic spectrum so that the spectral lines could be directly exploited.
+These information, however, are not present in the Hipparcos Catalogue. Therefore, hunting for other data sources from astronomical surveys and likely having to combine them will be necessary.
+
+Additionally, having more instances of the underrepresented types (white dwarfs, subdwarfs, types I and II) would be beneficial for the improvement of the model performance.
