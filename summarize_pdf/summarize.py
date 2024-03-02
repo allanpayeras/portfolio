@@ -11,7 +11,7 @@ from langchain_core.runnables import RunnablePassthrough
 
 from gtts import gTTS
 
-TEXT_CHUNK_SIZE = 10000
+TEXT_CHUNK_SIZE = 12000
 
 
 def concatenate_documents(documents: list) -> str:
@@ -43,7 +43,7 @@ def split_text(text: str) -> list[str]:
 
 
 def get_summarization_chain():
-    prompt_template = """You are an academic professor with many years of experience in summarizing academic texts with detailed description of the main points. Summarize the following text keeping a clear and in-depth description of the main ideas. Ignore parts of the text that contain useless information such as acknowledgements, list of publications, references, list of author names and institutions. If the text provided only contains useless information such as acknowledgements, or list of publications, or list of author names, or institutions return 'NOT USEFUL'. Provide the output without linebreaks.
+    prompt_template = """You are an academic professor with many years of experience in summarizing academic texts with clear description of the main points. Your audience is a researcher colleague. Summarize the following text keeping a clear and detailed description of the main ideas. Do not explicitly quote equations. Ignore parts of the text that contain useless information such as acknowledgements, list of publications, references, list of author names and institutions. If the text provided only contains useless information such as acknowledgements, or list of publications, or list of author names, or institutions return 'NOT USEFUL'. Provide the output without linebreaks.
     
     TEXT: {text}
     
