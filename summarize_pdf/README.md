@@ -15,9 +15,9 @@ An example of a paper and its respective MP3 file containing the summary produce
 
 Some packages must be installed for the python script to work properly.
 
-The program heavily relies on the LangChain framework, however some dependencies must be installed separately such as the `pypdf` and `langchain-openai`.
+The program heavily relies on the [LangChain](https://python.langchain.com/docs/get_started/introduction) framework, however some dependencies must be installed separately such as the `pypdf` and `langchain-openai`.
 The `python-dotenv` package is necessary for loading the authentication key for the OpenAI API.
-Lastly, we will need the Google text-to-speech API.
+Lastly, we will need the [Google text-to-speech API](https://pypi.org/project/gTTS/).
 
 Using `pip`, the command below should correctly install the dependencies for the script. 
 ```
@@ -63,7 +63,7 @@ The default name of the audio file can be overridden with the option `-o`, howev
 
 To reach our goal of summarizing academic papers a sequence of steps were implemented in a python script.
 Here a brief description is provided.
-More information about the development process can be found in [this page](https://allanpayeras.github.io/portfolio/audio_summaries/).
+More information about the development process can be found in [this page](https://allanpayeras.github.io/portfolio/audio_summaries/audio_summaries/).
 
 Initially, the provided PDF file is parsed using the [PyPDFLoader](https://python.langchain.com/docs/modules/data_connection/document_loaders/pdf) class, based on the PyPDF package, from the [LangChain framework](https://python.langchain.com/docs/get_started/introduction).
 Subsequently, the entire text is divided into chunks of at maximum 12,000 characters each.
